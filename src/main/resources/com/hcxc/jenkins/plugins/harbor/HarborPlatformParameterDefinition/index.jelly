@@ -1,0 +1,77 @@
+<!--
+ * Copyright 2007-2022 Home Credit Xinchi Consulting Co. Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2. *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <style type="text/css">
+        .setting-name {
+            white-space: nowrap;
+            padding-top: 7px;
+        }
+    </style>
+    <f:entry title="${it.name}">
+        <div name="parameter" style="align-content: center;">
+            <input type="hidden" name="name" value="${it.name}"/>
+            <input type="hidden" name="harborImageProject" value="${it.harborImageProject}"/>
+            <select name="harborImage" id="harborImage" onchange="harborChange(this)" style="height: 30px;margin-left:20px">
+                <f:option value="">please select image tag</f:option>
+            </select>
+            <input type="hidden" id="value" name="value" value=""/>
+            <div id="harborWarningDiv" style="display:none">
+                <div style="display:inline-block;margin-top:5px;width: 100%;color:#f00" id="harborWarning">
+                </div>
+            </div>
+        </div>
+    </f:entry>
+    <script>
+        var cacheHarborImage = "${it.cacheHarborImage}"
+        var harborImages = "${it.harborImages}".split(",")
+        jQuery(function () {
+            jQuery("#harborImage").empty();
+            for (harborImage of harborImages) {
+                if (harborImage == cacheHarborImage) {
+                    var optionContent = "&lt;option value='" + harborImage + "' selected>" + harborImage + "&lt;/option>";
+                    jQuery("#harborImage").append(optionContent);
+                } else {
+                    var optionContent = "&lt;option value='" + harborImage + "'>" + harborImage + "&lt;/option>";
+                    jQuery("#harborImage").append(optionContent);
+                }
+
+            }
+            document.getElementById("value").value = getSelectValue("harborImage")
+        });
+
+        function harborChange(item) {
+            var newValue = getSelectValue("harborImage")
+            if (cacheHarborImage.length > 0) {
+                if (harborImages.includes(cacheHarborImage)) {
+                    if (newValue != cacheHarborImage) {
+                        document.getElementById("harborWarningDiv").style.display = "";
+                        document.getElementById("harborWarning").innerHTML = "* Previous selection is " + cacheHarborImage
+                    }else{
+                        document.getElementById("harborWarningDiv").style.display = "none";
+                        document.getElementById("harborWarning").innerHTML = ""
+                    }
+                }
+            }
+            document.getElementById("value").value = newValue
+        }
+
+        function getSelectValue(id) {
+            var select = document.getElementById(id);
+            var index = select.selectedIndex
+            return select.options[index].value
+        }
+    </script>
+</j:jelly>
