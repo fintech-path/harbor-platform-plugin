@@ -107,6 +107,3 @@ A plugin for integrating Harbor Docker Image Manager into a Jenkins job. The Har
       selectize.bootstrap2.css
       selectize.css
    ```
-
-## Contact
-- hcc_app@homectedit.cn
