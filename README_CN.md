@@ -106,6 +106,3 @@ Jenkins集成harbor插件进行docker image管理，提供用户拉取、展示�
       selectize.bootstrap2.css
       selectize.css
    ```
-
-## 联系我
-- hcc_app@homectedit.cn
